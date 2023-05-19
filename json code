@@ -1,0 +1,46 @@
+import json
+
+# Load the JSON data
+with open('data.json') as file:
+    data = json.load(file)
+
+# Search by name
+def search_employees_by_name(search_input):
+    results = []
+    for employee in data['employees']:
+        if employee['name'] and search_input.lower() in employee['name'].lower():
+            results.append(employee)
+    return results
+
+# Filter by designation and skills
+def filter_employees(designations, skills):
+    results = []
+    for employee in data['employees']:
+        if (not designations or employee['designation'] in designations) and \
+           (not skills or any(skill in employee['skills'] for skill in skills)):
+            results.append(employee)
+    return results
+
+# Example usage
+search_input = 'Mr. A'
+designations = ['Senior Developer']
+skills = ['JavaScript', 'Python']
+
+search_results = search_employees_by_name(search_input)
+filtered_results = filter_employees(designations, skills)
+
+print("Search Results:")
+for employee in search_results:
+    print("ID:", employee['id'])
+    print("Name:", employee['name'])
+    print("Designation:", employee['designation'])
+    print("Skills:", employee['skills'])
+    print()
+
+print("Filtered Results:")
+for employee in filtered_results:
+    print("ID:", employee['id'])
+    print("Name:", employee['name'])
+    print("Designation:", employee['designation'])
+    print("Skills:", employee['skills'])
+    print()
